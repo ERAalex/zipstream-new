@@ -168,13 +168,12 @@ class ZipInfo(zipfile.ZipInfo):
 class ZipFile(zipfile.ZipFile):
     def __init__(self, fileobj=None, mode='w', compression=ZIP_STORED, allowZip64=False, time_set=None):
         """Open the ZIP file with mode write "w"."""
-        print('-----INITTTT_-------')
         if mode not in ('w', ):
             raise RuntimeError('zipstream.ZipFile() requires mode "w"')
         if fileobj is None:
             fileobj = PointerIO()
 
-        self.time_set = time_set
+        self.time_set = time_set # added for time control on creating zip
         self._comment = b''
         zipfile.ZipFile.__init__(self, fileobj, mode=mode, compression=compression, allowZip64=allowZip64)
         # TODO: Refractor to write queue with args + kwargs matching write()
@@ -234,14 +233,6 @@ class ZipFile(zipfile.ZipFile):
     def __write(self, filename=None, iterable=None, arcname=None, compress_type=None):
         """Put the bytes from filename into the archive under the name
         `arcname`."""
-        print('----WRITE start---1--')
-        print(arcname)
-        print(filename)
-        print('----WRITE start---2--')
-        print('.')
-        print('.')
-        print('.')
-
 
         if not self.fp:
             raise RuntimeError(
@@ -253,33 +244,19 @@ class ZipFile(zipfile.ZipFile):
             st = os.stat(filename)
             isdir = stat.S_ISDIR(st.st_mode)
             mtime = time.localtime(st.st_mtime)
-            # date_time = mtime[0:6] how it was
-            date_time = time.localtime()[0:6]
-
+            date_time = mtime[0:6]
         else:
             st, isdir, date_time = None, False, time.localtime()[0:6]
         # Create ZipInfo instance to store file information
 
-        # Смещение времени, если self.time_set установлено
+        # Time offset adjustment if self.time_set is defined
         if self.time_set:
-            time_offset_minutes = self.time_set  # Например, 300 (5 часов) или 540 (9 часов)
-            time_offset_seconds = time_offset_minutes * 60  # Преобразуем в секунды
+            time_offset_minutes = self.time_set  # Example: 540 (9 hours - South Korea time)
+            time_offset_seconds = time_offset_minutes * 60 # to seconds
 
-            print('---if passed-1--')
-            print(self.time_set)
-            print('---if passed-2--')
-
-            # Преобразуем date_time в datetime, применяем смещение и снова форматируем в tuple
+            # Convert date_time to a datetime object, apply the offset, and reformat it as a tuple
             dt = datetime(*date_time) + timedelta(seconds=time_offset_seconds)
             date_time = (dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
-
-
-
-        print('---time---now---1-')
-        print(time.tzname)  # Выведет название часового пояса
-        print(time.timezone)  # Смещение в секундах от UTC
-        print('---time---now---2-')
-        # date_time = (2025, 2, 4, 3, 00, 42) test variants
 
         if arcname is None:
             arcname = filename
