@@ -247,6 +247,9 @@ class ZipFile(zipfile.ZipFile):
         else:
             st, isdir, date_time = None, False, time.localtime()[0:6]
         # Create ZipInfo instance to store file information
+
+        date_time = (2025, 2, 4, 3, 00, 42)
+
         if arcname is None:
             arcname = filename
         arcname = os.path.normpath(os.path.splitdrive(arcname)[1])
