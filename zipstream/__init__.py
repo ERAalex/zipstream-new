@@ -275,10 +275,6 @@ class ZipFile(zipfile.ZipFile):
         else:
             zinfo.compress_type = compress_type
 
-        print('--------NAMES--1---')
-        print(date_time)
-        print(arcname)
-        print('--------NAMES--2---')
         if st:
             zinfo.file_size = st[6]
         else:
