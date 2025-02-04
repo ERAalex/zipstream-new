@@ -13,6 +13,7 @@ import sys
 import stat
 import struct
 import time
+from datetime import datetime, timedelta  # <-- Добавляем импорт
 import zipfile
 
 from .compat import (
@@ -271,8 +272,6 @@ class ZipFile(zipfile.ZipFile):
             # Преобразуем date_time в datetime, применяем смещение и снова форматируем в tuple
             dt = datetime(*date_time) + timedelta(seconds=time_offset_seconds)
             date_time = (dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
-
-
 
 
 
