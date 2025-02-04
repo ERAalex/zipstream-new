@@ -243,12 +243,13 @@ class ZipFile(zipfile.ZipFile):
             st = os.stat(filename)
             isdir = stat.S_ISDIR(st.st_mode)
             mtime = time.localtime(st.st_mtime)
-            date_time = mtime[0:6]
+            # date_time = mtime[0:6] how it was
+            date_time = time.localtime()[0:6]
         else:
             st, isdir, date_time = None, False, time.localtime()[0:6]
         # Create ZipInfo instance to store file information
 
-        date_time = (2025, 2, 4, 3, 00, 42)
+        # date_time = (2025, 2, 4, 3, 00, 42) test variants
 
         if arcname is None:
             arcname = filename
