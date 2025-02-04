@@ -254,17 +254,27 @@ class ZipFile(zipfile.ZipFile):
             mtime = time.localtime(st.st_mtime)
             # date_time = mtime[0:6] how it was
             date_time = time.localtime()[0:6]
-            date_time = (2025, 2, 4, 3, 00, 42)
 
         else:
             st, isdir, date_time = None, False, time.localtime()[0:6]
         # Create ZipInfo instance to store file information
 
+        # Смещение времени, если self.time_set установлено
         if self.time_set:
+            time_offset_minutes = self.time_set  # Например, 300 (5 часов) или 540 (9 часов)
+            time_offset_seconds = time_offset_minutes * 60  # Преобразуем в секунды
+
             print('---if passed-1--')
             print(self.time_set)
             print('---if passed-2--')
-            date_time = (2025, 2, 4, 3, 00, 42)
+
+            # Преобразуем date_time в datetime, применяем смещение и снова форматируем в tuple
+            dt = datetime(*date_time) + timedelta(seconds=time_offset_seconds)
+            date_time = (dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
+
+
+
+
 
         print('---time---now---1-')
         print(time.tzname)  # Выведет название часового пояса
