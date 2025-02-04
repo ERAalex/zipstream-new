@@ -249,6 +249,10 @@ class ZipFile(zipfile.ZipFile):
             st, isdir, date_time = None, False, time.localtime()[0:6]
         # Create ZipInfo instance to store file information
 
+        print('---time---now---1-')
+        print(time.tzname)  # Выведет название часового пояса
+        print(time.timezone)  # Смещение в секундах от UTC
+        print('---time---now---2-')
         # date_time = (2025, 2, 4, 3, 00, 42) test variants
 
         if arcname is None:
