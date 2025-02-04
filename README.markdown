@@ -4,6 +4,30 @@
 [![Build Status](https://travis-ci.org/allanlei/python-zipstream.png?branch=master)](https://travis-ci.org/allanlei/python-zipstream)
 [![Coverage Status](https://coveralls.io/repos/allanlei/python-zipstream/badge.png)](https://coveralls.io/r/allanlei/python-zipstream)
 
+
+## Cloudike - Time Control for ZIP Archives
+
+Ticket: NRF-3930
+When preparing a ZIP archive using ZipFile, there is no built-in way to control the creation time of files and folders.
+
+### Solution
+A new interface has been added to modify the timestamps of files and folders inside the archive.
+In __init__.py, a new parameter time_set was introduced in the ZipFile class:
+self.time_set = time_set  # Added for time control when creating a ZIP archive
+
+Later, in the __write method, a check is performed to see if this parameter was provided, and the timestamp is adjusted accordingly:
+
+```python
+if self.time_set:
+    time_offset_minutes = self.time_set  # Example: 540 (9 hours - South Korea time)
+    time_offset_seconds = time_offset_minutes * 60  # Convert to seconds
+
+    # Convert date_time to a datetime object, apply the offset, and reformat it as a tuple
+    dt = datetime(*date_time) + timedelta(seconds=time_offset_seconds)
+    date_time = (dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
+```
+
+
 zipstream.py is a zip archive generator based on python 3.3's zipfile.py. It was created to
 generate a zip file generator for streaming (ie web apps). This is beneficial for when you
 want to provide a downloadable archive of a large collection of regular files, which would be infeasible to

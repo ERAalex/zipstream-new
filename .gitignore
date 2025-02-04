@@ -37,3 +37,6 @@ nosetests.xml
 
 *.zip
 .eggs/
+
+# JetBrains IDE (PyCharm, IntelliJ IDEA)
+.idea/
