@@ -167,6 +167,7 @@ class ZipInfo(zipfile.ZipInfo):
 class ZipFile(zipfile.ZipFile):
     def __init__(self, fileobj=None, mode='w', compression=ZIP_STORED, allowZip64=False):
         """Open the ZIP file with mode write "w"."""
+        print('-----INITTTT_-------')
         if mode not in ('w', ):
             raise RuntimeError('zipstream.ZipFile() requires mode "w"')
         if fileobj is None:
@@ -231,6 +232,7 @@ class ZipFile(zipfile.ZipFile):
     def __write(self, filename=None, iterable=None, arcname=None, compress_type=None):
         """Put the bytes from filename into the archive under the name
         `arcname`."""
+        print('----WRITE start------')
         if not self.fp:
             raise RuntimeError(
                   "Attempt to write to ZIP archive that was already closed")
@@ -262,6 +264,10 @@ class ZipFile(zipfile.ZipFile):
         else:
             zinfo.compress_type = compress_type
 
+        print('--------NAMES--1---')
+        print(date_time)
+        print(arcname)
+        print('--------NAMES--2---')
         if st:
             zinfo.file_size = st[6]
         else:
