@@ -165,7 +165,7 @@ class ZipInfo(zipfile.ZipInfo):
 
 
 class ZipFile(zipfile.ZipFile):
-    def __init__(self, fileobj=None, mode='w', compression=ZIP_STORED, allowZip64=False):
+    def __init__(self, fileobj=None, mode='w', compression=ZIP_STORED, allowZip64=False, time_set=None):
         """Open the ZIP file with mode write "w"."""
         print('-----INITTTT_-------')
         if mode not in ('w', ):
@@ -173,6 +173,7 @@ class ZipFile(zipfile.ZipFile):
         if fileobj is None:
             fileobj = PointerIO()
 
+        self.time_set = time_set
         self._comment = b''
         zipfile.ZipFile.__init__(self, fileobj, mode=mode, compression=compression, allowZip64=allowZip64)
         # TODO: Refractor to write queue with args + kwargs matching write()
@@ -248,6 +249,10 @@ class ZipFile(zipfile.ZipFile):
         else:
             st, isdir, date_time = None, False, time.localtime()[0:6]
         # Create ZipInfo instance to store file information
+
+        if self.time_set:
+            print('---if passed---')
+            date_time = (2025, 2, 4, 3, 00, 42)
 
         print('---time---now---1-')
         print(time.tzname)  # Выведет название часового пояса
