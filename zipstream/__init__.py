@@ -233,7 +233,15 @@ class ZipFile(zipfile.ZipFile):
     def __write(self, filename=None, iterable=None, arcname=None, compress_type=None):
         """Put the bytes from filename into the archive under the name
         `arcname`."""
-        print('----WRITE start------')
+        print('----WRITE start---1--')
+        print(arcname)
+        print(filename)
+        print('----WRITE start---2--')
+        print('.')
+        print('.')
+        print('.')
+
+
         if not self.fp:
             raise RuntimeError(
                   "Attempt to write to ZIP archive that was already closed")
@@ -246,6 +254,8 @@ class ZipFile(zipfile.ZipFile):
             mtime = time.localtime(st.st_mtime)
             # date_time = mtime[0:6] how it was
             date_time = time.localtime()[0:6]
+            date_time = (2025, 2, 4, 3, 00, 42)
+
         else:
             st, isdir, date_time = None, False, time.localtime()[0:6]
         # Create ZipInfo instance to store file information
