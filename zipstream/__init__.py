@@ -251,7 +251,9 @@ class ZipFile(zipfile.ZipFile):
         # Create ZipInfo instance to store file information
 
         if self.time_set:
-            print('---if passed---')
+            print('---if passed-1--')
+            print(self.time_set)
+            print('---if passed-2--')
             date_time = (2025, 2, 4, 3, 00, 42)
 
         print('---time---now---1-')
