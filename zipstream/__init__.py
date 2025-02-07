@@ -13,7 +13,6 @@ import sys
 import stat
 import struct
 import time
-from datetime import datetime, timedelta  # <-- Добавляем импорт
 import zipfile
 
 from .compat import (
