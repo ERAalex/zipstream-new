@@ -251,12 +251,7 @@ class ZipFile(zipfile.ZipFile):
 
         # Time offset adjustment if self.time_set is defined
         if self.time_set:
-            time_offset_minutes = self.time_set  # Example: 540 (9 hours - South Korea time)
-            time_offset_seconds = time_offset_minutes * 60 # to seconds
-
-            # Convert date_time to a datetime object, apply the offset, and reformat it as a tuple
-            dt = datetime(*date_time) + timedelta(seconds=time_offset_seconds)
-            date_time = (dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
+            date_time = self.time_set
 
         if arcname is None:
             arcname = filename
